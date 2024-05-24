@@ -17,13 +17,36 @@ class EmployersAddForm extends Component {
     });
   };
 
+  onSubmit = (e) => {
+    e.preventDefault();
+    const { name, salary } = this.state;
+    if (name.trim() === "" || salary.trim() === "") {
+      alert("Пожалуйста, заполните все поля");
+      return;
+    }
+
+    const newEmployee = {
+      name: name,
+      salary: parseInt(salary),
+      increase: false,
+      id: Date.now(),
+    };
+
+    this.props.onAdd(newEmployee);
+
+    this.setState({
+      name: "",
+      salary: "",
+    });
+  };
+
   render() {
     const { name, salary } = this.state;
 
     return (
       <div className="app-add-form">
         <h3>Добавьте нового сотрудника</h3>
-        <form className="add-form d-flex">
+        <form className="add-form d-flex" onSubmit={this.onSubmit}>
           <input
             type="text"
             className="form-control new-post-label"
